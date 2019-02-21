@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using org.apache.zookeeper;
@@ -40,6 +41,7 @@ namespace ZookeeperTest.Controllers
             //删除/root/childone这个节点，第二个参数为版本，－1的话直接删除，无视版本 
             zk.deleteAsync("/root/childone", -1);
 
+            Thread.Sleep(5000);
             return null;
         }
     }

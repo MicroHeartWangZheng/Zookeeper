@@ -1,4 +1,5 @@
-﻿using org.apache.zookeeper;
+﻿using Newtonsoft.Json;
+using org.apache.zookeeper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace ZookeeperTest
         {
             Console.WriteLine($@"Path:{@event.getPath()}");
             Console.WriteLine($@"State:{@event.getState()}");
-            Console.WriteLine($@"Type:{@event.GetType()}");
+            Console.WriteLine($@"Type:{@event.get_Type()}");
             return null; 
         }
     }
