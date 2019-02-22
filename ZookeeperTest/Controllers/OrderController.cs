@@ -9,12 +9,12 @@ namespace ZookeeperTest.Controllers
 {
     public class OrderController : Controller
     {
-
+        [Route("Order/Order")]
         public string Order(Order order)
         {
             return "下单成功!";
         }
-
+        [Route("Order/GetOrders")]
         public List<Order> GetOrders()
         {
             List<Order> orders = new List<Order>();
@@ -24,11 +24,17 @@ namespace ZookeeperTest.Controllers
             {
                 order = new Order();
                 order.Address = "浙江省杭州市拱墅区北部软件园" + i;
-                order.CustomerName = "MicroHeart";
+                order.CustomerId = i;
                 order.Goods = "麻辣香锅" + i;
                 order.Id = i;
+
+                order.Custormer=
+
                 orders.Add(order);
             }
+
+
+
             return orders;
         }
     }
