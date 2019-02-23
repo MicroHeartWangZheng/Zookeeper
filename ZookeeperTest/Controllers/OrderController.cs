@@ -32,7 +32,7 @@ namespace ZookeeperTest.Controllers
                 order.Goods = "麻辣香锅" + i;
                 order.Id = i;
 
-                ZooKeeper zooKeeper = new ZooKeeper("118.24.96.212", 50000, new MyWatcher());
+                ZooKeeper zooKeeper = new ZooKeeper("127.0.0.1", 50000, new MyWatcher());
 
                 ChildrenResult childrenResult = await zooKeeper.getChildrenAsync("/MyApp/CustomerServices/Customer-GetCustormer/");
 

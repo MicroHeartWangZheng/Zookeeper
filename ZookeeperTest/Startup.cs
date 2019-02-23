@@ -53,8 +53,8 @@ namespace ZookeeperTest
         public void InitZooKeeper()
         {
             var MyApp = "/MyApp";
-            //创建ZooKeeper
-            ZooKeeper zooKeeper = new ZooKeeper("118.24.96.212", 50000, new MyWatcher());
+            //创建ZooKeeper 118.24.96.212
+            ZooKeeper zooKeeper = new ZooKeeper("127.0.0.1", 50000, new MyWatcher());
 
             //创建 MyApp节点，数据为:MyAppData 权限控制为：开放  节点类型为：持久性节点
             if (zooKeeper.existsAsync(MyApp) != null)
