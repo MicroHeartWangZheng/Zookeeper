@@ -11,10 +11,7 @@ namespace ZookeeperTest
     {
         public override Task process(WatchedEvent @event)
         {
-            Console.WriteLine($@"Path:{@event.getPath()}");
-            Console.WriteLine($@"State:{@event.getState()}");
-            Console.WriteLine($@"Type:{@event.get_Type()}");
-            return null; 
+            return null;
         }
     }
 }

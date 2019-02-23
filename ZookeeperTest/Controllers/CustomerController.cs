@@ -7,7 +7,7 @@ using ZookeeperTest.Domain;
 
 namespace ZookeeperTest.Controllers
 {
-    public class CustomerController : Controller
+    public class CustomerController : ControllerBase
     {
         [Route("Customer/GetCustormer")]
         public Custormer GetCustormer(int Id)
