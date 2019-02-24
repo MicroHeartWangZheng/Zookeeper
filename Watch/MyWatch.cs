@@ -1,11 +1,8 @@
-﻿using Newtonsoft.Json;
-using org.apache.zookeeper;
+﻿using org.apache.zookeeper;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace ZookeeperTest
+namespace Watch
 {
     public class MyWatcher : Watcher
     {

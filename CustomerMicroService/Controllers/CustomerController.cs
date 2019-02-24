@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
-using ZookeeperTest.Domain;
 
-namespace ZookeeperTest.Controllers
+namespace CustomerMicroService.Controllers
 {
     public class CustomerController : ControllerBase
     {
-        [Route("Customer/GetCustormer")]
-        public Custormer GetCustormer(int Id)
+        [Route("Customer/GetCustomer")]
+        public Custormer GetCustomer(int Id)
         {
             return new Custormer() { Id=Id,Name="Microheart"+Id,Phone="1234567"};
         }

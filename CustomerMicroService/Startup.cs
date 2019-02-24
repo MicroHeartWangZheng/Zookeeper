@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -17,7 +16,7 @@ using org.apache.zookeeper;
 using Watch;
 using static org.apache.zookeeper.ZooDefs;
 
-namespace OrderMicroService
+namespace CustomerMicroService
 {
     public class Startup
     {
@@ -32,7 +31,7 @@ namespace OrderMicroService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,12 +43,14 @@ namespace OrderMicroService
             }
             else
             {
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseMvc();
         }
+
 
         public void InitZooKeeper()
         {
@@ -79,7 +80,7 @@ namespace OrderMicroService
                                 if (!serviceAndApiPaths.Keys.Contains(serviceName))
                                 {
                                     List<string> apiPaths = new List<string>();
-                                    apiPaths.Add(customAttribute.ConstructorArguments[0].ToString().Replace("/","-"));
+                                    apiPaths.Add(customAttribute.ConstructorArguments[0].ToString().Replace("/", "-"));
                                     serviceAndApiPaths.Add(serviceName, apiPaths);
                                 }
                                 else
@@ -92,7 +93,7 @@ namespace OrderMicroService
 
             //将这些接口列表 放到MyApp节点下 
 
-            foreach(var item in serviceAndApiPaths)
+            foreach (var item in serviceAndApiPaths)
             {
                 //创建 服务节点，为持久性节点
                 if (zooKeeper.existsAsync($@"{MyApp}/{item.Key}") != null)
@@ -105,7 +106,7 @@ namespace OrderMicroService
 
                     //创建 Ip+port 节点，为临时性节点
                     IPAddress[] IPList = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList;
-                    string currentIp = IPList.Where(ip=>ip.AddressFamily==System.Net.Sockets.AddressFamily.InterNetwork).Last().ToString();
+                    string currentIp = IPList.Where(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).Last().ToString();
                     if (zooKeeper.existsAsync($@"{MyApp}/{item.Key}/{apiPath}/{currentIp}:8080") != null)
                         zooKeeper.createAsync($@"{MyApp}/{item.Key}/{apiPath}/{currentIp}:8080", null, Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
                 }

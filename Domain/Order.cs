@@ -1,4 +1,4 @@
-﻿namespace ZookeeperTest.Domain
+﻿namespace Domain
 {
     public class Order
     {
