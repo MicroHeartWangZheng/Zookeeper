@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Watch;
+using static org.apache.zookeeper.ZooDefs;
 
 namespace OrderMicroService.Controllers
 {
@@ -31,23 +32,27 @@ namespace OrderMicroService.Controllers
                 order.CustomerId = i;
                 order.Goods = "麻辣香锅" + i;
                 order.Id = i;
-
+                //连接ZooKeeper
                 ZooKeeper zooKeeper = new ZooKeeper("127.0.0.1:2181", 50000, new MyWatcher());
 
-                ChildrenResult childrenResult1 = await zooKeeper.getChildrenAsync("/MyApp/CustomerServices");
-                ChildrenResult childrenResult = await zooKeeper.getChildrenAsync("/MyApp/CustomerServices/Customer-GetCustomer");
-                
+                ChildrenResult childrenResult2 = await zooKeeper.getChildrenAsync("/MyApp");
+
+                ChildrenResult childrenResult = null;
+
+                //if (await zooKeeper.existsAsync("/MyApp/CustomerServices/Customer-GetCustomer") != null)
+                //    childrenResult = await zooKeeper.getChildrenAsync("/MyApp/CustomerServices/Customer-GetCustomer");
+
 
                 //生成一个随机数 
-                Random random = new Random();
-                var num = random.Next(0, childrenResult.Children.Count - 1);
-                //通过随机数 获取服务下随机的一个地址 
-                var url = $@"{ childrenResult.Children[num]}/Customer/GetCustomer?Id=" + order.CustomerId;
+                //Random random = new Random();
+                //var num = random.Next(0, childrenResult.Children.Count - 1);
 
+                //通过随机数 获取服务下随机的一个地址 
+                var url = $@"http://127.0.0.1:5000/Customer/GetCustomer?Id=" + order.CustomerId;
                 var result = await client.GetAsync(url);
 
+                //通过地址获取顾客的信息
                 Custormer custormer = JsonConvert.DeserializeObject<Custormer>(result.Content.ReadAsStringAsync().Result);
-
                 order.Custormer = custormer;
 
                 orders.Add(order);

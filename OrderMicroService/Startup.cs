@@ -42,12 +42,7 @@ namespace OrderMicroService
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
 
-            app.UseHttpsRedirection();
             app.UseMvc();
         }
 
@@ -103,11 +98,12 @@ namespace OrderMicroService
                     if (zooKeeper.existsAsync($@"{MyApp}/{item.Key}/{apiPath}") != null)
                         zooKeeper.createAsync($@"{MyApp}/{item.Key}/{apiPath}", null, Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 
-                    //创建 Ip+port 节点，为临时性节点
-                    IPAddress[] IPList = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList;
-                    string currentIp = IPList.Where(ip=>ip.AddressFamily==System.Net.Sockets.AddressFamily.InterNetwork).Last().ToString();
-                    if (zooKeeper.existsAsync($@"{MyApp}/{item.Key}/{apiPath}/{currentIp}:5001") != null)
-                        zooKeeper.createAsync($@"{MyApp}/{item.Key}/{apiPath}/{currentIp}:5001", null, Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
+                    //创建 Ip+port 节点，为临时性节点(由于我本地 不能通过我局域网Ip地址访问，所以我写死127.0.0.1)
+                    //IPAddress[] IPList = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList;
+                    //string currentIp = IPList.Where(ip=>ip.AddressFamily==System.Net.Sockets.AddressFamily.InterNetwork).Last().ToString();
+                    string currentIp = "127.0.0.1";
+                    if (zooKeeper.existsAsync($@"{MyApp}/{item.Key}/{apiPath}/{currentIp}:5002") != null)
+                        zooKeeper.createAsync($@"{MyApp}/{item.Key}/{apiPath}/{currentIp}:5002", null, Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
                 }
             }
 

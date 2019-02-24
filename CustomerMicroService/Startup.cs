@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -31,7 +32,7 @@ namespace CustomerMicroService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,16 +42,9 @@ namespace CustomerMicroService
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
 
-            app.UseHttpsRedirection();
             app.UseMvc();
         }
-
 
         public void InitZooKeeper()
         {
@@ -104,9 +98,10 @@ namespace CustomerMicroService
                     if (zooKeeper.existsAsync($@"{MyApp}/{item.Key}/{apiPath}") != null)
                         zooKeeper.createAsync($@"{MyApp}/{item.Key}/{apiPath}", null, Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 
-                    //创建 Ip+port 节点，为临时性节点
-                    IPAddress[] IPList = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList;
-                    string currentIp = IPList.Where(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).Last().ToString();
+                    //创建 Ip+port 节点，为临时性节点(由于我本地部署 不能通过我局域网Ip 192.168.1.10地址访问，所以我写死127.0.0.1)
+                    //IPAddress[] IPList = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList;
+                    //string currentIp = IPList.Where(ip=>ip.AddressFamily==System.Net.Sockets.AddressFamily.InterNetwork).Last().ToString();
+                    string currentIp = "127.0.0.1";
                     if (zooKeeper.existsAsync($@"{MyApp}/{item.Key}/{apiPath}/{currentIp}:5000") != null)
                         zooKeeper.createAsync($@"{MyApp}/{item.Key}/{apiPath}/{currentIp}:5000", null, Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
                 }
