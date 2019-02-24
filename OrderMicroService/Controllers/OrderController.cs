@@ -34,7 +34,7 @@ namespace OrderMicroService.Controllers
                 order.Goods = "麻辣香锅" + i;
                 order.Id = i;
                 //连接ZooKeeper
-                ZooKeeper zooKeeper = new ZooKeeper("127.0.0.1:2181", 50000, new MyWatcher());
+                ZooKeeper zooKeeper = new ZooKeeper("118.24.96.212:2181", 50000, new MyWatcher());
 
                 ChildrenResult childrenResult = null;
 
