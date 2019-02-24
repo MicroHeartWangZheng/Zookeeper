@@ -18,6 +18,7 @@ namespace OrderMicroService.Controllers
         {
             return "下单成功!";
         }
+
         [Route("Order/GetOrders")]
         public async Task<List<Order>> GetOrders()
         {
@@ -35,20 +36,17 @@ namespace OrderMicroService.Controllers
                 //连接ZooKeeper
                 ZooKeeper zooKeeper = new ZooKeeper("127.0.0.1:2181", 50000, new MyWatcher());
 
-                ChildrenResult childrenResult2 = await zooKeeper.getChildrenAsync("/MyApp");
-
                 ChildrenResult childrenResult = null;
 
-                //if (await zooKeeper.existsAsync("/MyApp/CustomerServices/Customer-GetCustomer") != null)
-                //    childrenResult = await zooKeeper.getChildrenAsync("/MyApp/CustomerServices/Customer-GetCustomer");
-
+                if (await zooKeeper.existsAsync("/MyApp/CustomerServices/Customer-GetCustomer") != null)
+                    childrenResult = await zooKeeper.getChildrenAsync("/MyApp/CustomerServices/Customer-GetCustomer");
 
                 //生成一个随机数 
-                //Random random = new Random();
-                //var num = random.Next(0, childrenResult.Children.Count - 1);
+                Random random = new Random();
+                var num = random.Next(0, childrenResult.Children.Count - 1);
 
                 //通过随机数 获取服务下随机的一个地址 
-                var url = $@"http://127.0.0.1:5000/Customer/GetCustomer?Id=" + order.CustomerId;
+                var url = $@"http://{childrenResult.Children[num]}/Customer/GetCustomer?Id=" + order.CustomerId;
                 var result = await client.GetAsync(url);
 
                 //通过地址获取顾客的信息

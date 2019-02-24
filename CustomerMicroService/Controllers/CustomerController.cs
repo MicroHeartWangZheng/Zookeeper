@@ -12,7 +12,7 @@ namespace CustomerMicroService.Controllers
         [Route("Customer/GetCustomer")]
         public Custormer GetCustomer(int Id)
         {
-            return new Custormer() { Id=Id,Name="Microheart"+Id,Phone="1234567"};
+            return new Custormer() { Id=Id,Name="MicroHeart"+Id,Phone="1234567"};
         }
     }
 }

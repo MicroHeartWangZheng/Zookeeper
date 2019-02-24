@@ -49,8 +49,8 @@ namespace CustomerMicroService
         public void InitZooKeeper()
         {
             var MyApp = "/MyApp";
-            //创建ZooKeeper 118.24.96.212
-            ZooKeeper zooKeeper = new ZooKeeper("127.0.0.1:2181", 50000, new MyWatcher());
+            //创建ZooKeeper 我就不在本地创建了 客户端和服务端都在本地的话，会造成误会
+            ZooKeeper zooKeeper = new ZooKeeper("118.24.96.212:2181", 50000, new MyWatcher());
 
             //创建 MyApp节点，数据为:MyAppData 权限控制为：开放  节点类型为：持久性节点
             if (zooKeeper.existsAsync(MyApp) != null)
@@ -102,8 +102,8 @@ namespace CustomerMicroService
                     //IPAddress[] IPList = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList;
                     //string currentIp = IPList.Where(ip=>ip.AddressFamily==System.Net.Sockets.AddressFamily.InterNetwork).Last().ToString();
                     string currentIp = "127.0.0.1";
-                    if (zooKeeper.existsAsync($@"{MyApp}/{item.Key}/{apiPath}/{currentIp}:5000") != null)
-                        zooKeeper.createAsync($@"{MyApp}/{item.Key}/{apiPath}/{currentIp}:5000", null, Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
+                    if (zooKeeper.existsAsync($@"{MyApp}/{item.Key}/{apiPath}/{currentIp}:{Configuration["Port"]}") != null)
+                        zooKeeper.createAsync($@"{MyApp}/{item.Key}/{apiPath}/{currentIp}:{Configuration["Port"]}", null, Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
                 }
             }
 
