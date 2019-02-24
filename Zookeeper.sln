@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderMicroService", "ZookeeperTest\OrderMicroService.csproj", "{C68EFDF9-E271-4207-8986-9B2D442BFE64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderMicroService", "OrderMicroService\OrderMicroService.csproj", "{C68EFDF9-E271-4207-8986-9B2D442BFE64}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{2B1CC015-9430-4D13-93BA-57829BDA5839}"
 EndProject
